@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Cache-control" content="no-cache">
+</head>
+
+<body>
+	
+	<header>
+		<h1 id="title">Tutor Sidekick</h1>
+		<p>This is the homepage, after a user has logged in.</p>
+	</header>
+
+	<form action="class_data.php" method="POST">
+		<div id="classDataForm">
+			<h2>Enter Data</h2>
+			<table>
+				<tr><td><label for="hourlyRate">Hourly Rate</label></td>
+					<td><input type="number" name="hourlyRate"></td></tr>
+
+				<tr><td><label for="classLength">Class Length</label></td>
+					<td><select name="classLength">
+						<option value=".5">.5 hour</option>
+						<option value="1">1 hour</option>
+						<option value="2">2 hours</option>
+						<option value="3">3 hours</option>
+						<option value="4">4 hours</option>
+					</select></td></tr>
+
+				<tr><td><label for="studentName">Class Code</label></td>
+					<td><input type="number" name="classCode" placeholder="Enter Class Code"></td></tr>
+
+				<tr><td><label for="dateOfClass">Date</label></td>
+					<td><input type="date" name="dateOfClass" placeholder="Enter Date"></td></tr>
+
+				<tr><td><label for="time">Class Start Time</label></td>
+					<td><input type="time" name="time" placeholder="Enter class starting time"></td></tr>
+
+				<!--<tr><td><label for="classReport">Class Report</label></td>
+					<td><textarea id="commentBox" name="classReport" rows="8" cols="50"  form="classData" placeholder="Write a short class report here and/or homework given"></textarea></td></tr>-->
+			</table>
+			<input type="submit" name="submitButton" value="Submit">
+		</div>
+	</form>
+
+</body>
+</html>

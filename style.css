@@ -1,0 +1,24 @@
+body {
+	background-color: #6da4bf;
+}
+
+header {
+	background-color: purple;
+	
+}
+
+
+#formContainer {
+	background-color: blue;
+	
+}
+
+#classDataForm, #signUpForm {
+	background-color: #cef4cc;
+	/*display: inline-block;*/
+	padding: 3px;
+}
+
+textarea {
+    margin: 5px;
+}
