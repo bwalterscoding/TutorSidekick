@@ -9,8 +9,9 @@
 <body>
 	<header>
 		<h1 id="title">Tutor Sidekick</h1>
-		<p>This is the homepage, after a user has logged in.</p>
 	</header>
+
+	<h2>SUCCESS!</h2>
 
 <?php  
 
@@ -40,6 +41,8 @@ $result = mysqli_query($connect, $userQuery);
 mysqli_close($connect);   // close the connection
 
 ?>
+
+	<button onclick="window.location.href='mainPage.html'">Enter another class</button>
 
 </body>
 </html>
