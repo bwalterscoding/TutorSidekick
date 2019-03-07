@@ -7,18 +7,13 @@ header {
 	
 }
 
-
-#formContainer {
-	background-color: blue;
-	
-}
-
-#classDataForm, #signUpForm {
+#classDataDiv, #signUpForm {
 	background-color: #cef4cc;
 	/*display: inline-block;*/
 	padding: 3px;
 }
 
 textarea {
-    margin: 5px;
+    
+    height: 100%;
 }
