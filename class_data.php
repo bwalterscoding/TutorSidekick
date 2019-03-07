@@ -32,17 +32,18 @@ $classLength = $_POST['classLength'];
 $classCode = $_POST['classCode'];
 $dateOfClass = $_POST['dateOfClass'];
 $time = $_POST['time'];
+$classSummary = $_POST['classSummary'];
 
 
-$userQuery = ("INSERT INTO classdata (hourly_rate, hours_taught, class_code, date_of_class, class_start_time) 
-				VALUES ('$hourlyRate', '$classLength', '$classCode', '$dateOfClass', '$time') ");
+$userQuery = ("INSERT INTO classdata (hourly_rate, hours_taught, class_code, date_of_class, class_start_time, class_summary) 
+				VALUES ('$hourlyRate', '$classLength', '$classCode', '$dateOfClass', '$time', $classSummary");
 
 $result = mysqli_query($connect, $userQuery);
 mysqli_close($connect);   // close the connection
 
 ?>
 
-	<button onclick="window.location.href='mainPage.html'">Enter another class</button>
+<button onclick="window.location.href='mainPage.html'">Enter another class</button>
 
 </body>
 </html>
