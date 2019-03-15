@@ -12,19 +12,27 @@
 			<ul>
 				<li><a href="firstPage.html">Home</a></li>
 				<li><a href="signUp.html">Sign Up</a></li>
+				<li><a href="classroomDataEntry.html">Classroom Data Entry</a></li>
+				<li><a href="newStudentLog.php">Student Data Entry</a></li>
 			</ul>
 		</nav>
 	</header>
 
-	<form action="process_login.php" method="post" id="loginForm">
-
+	<form>
 		<div id="formContainer">
 			<h2>Welcome Back Tutor</h2>
-			<label for="email"><b>Email: </b></label>
-			<input type="text" name="email" placeholder="Enter Email">
-			<label for="psw"><b>Password: </b></label>
-			<input type="password" name="psw" placeholder="Enter Password">
-			<button type="submit" form="loginForm" value="Submit">Submit</button>
+			<table>
+				<tr><td><label for="email"><b>Email</b></label></td>
+					<td><input type="text" name="email" placeholder="Enter Email"></td></tr>
+
+				<tr><td><label for="username"><b>Username</label></td>
+					<td><input type="text" name="username" placeholder="Username"></td></tr>
+
+				<tr><td><label for="psw"><b>Password</b></label></td>
+					<td><input type="password" name="psw" placeholder="Enter Password"></td></tr>
+			</table>
+	
+			<button type="submit" value="Submit">Submit</button>
 		</div>
 	</form>
 

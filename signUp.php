@@ -19,14 +19,17 @@ if( !$connect)
 	", ".mysqli_connect_error().")");
 }
 
+
+
 $firstName = $_POST['firstName'];
 $lastName = $_POST['lastName'];
 $emailAddress = $_POST['emailAddress'];
+$username = $_POST['username'];
 $psw = $_POST['psw'];
 $pswConfirm = $_POST['pswConfirm'];
 if ($psw === $pswConfirm) {
-	$userQuery = ("INSERT INTO users (first_name, last_name, email, password) 
-				VALUES ('$firstName', '$lastName', '$emailAddress', '$psw') ");
+	$userQuery = ("INSERT INTO users (first_name, last_name, username, email, password) 
+				VALUES ('$firstName', '$lastName', '$username', '$emailAddress', '$psw') ");
 }
 else {
 	echo "<h1>PASSWORDS DONT MATCH</h1>";
