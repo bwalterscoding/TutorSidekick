@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student Data Entry</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<header>
+		<h1 id="title">Tutor Sidekick</h1>
+		<nav>
+			<ul>
+				<li><a href="firstPage.html">Home</a></li>
+				<li><a href="classroomDataEntry.html">Classroom Data Entry</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<form action="processNewStudent.php" method="post" id="newStudentForm">
+		<div class="classDataDiv">
+			<h1>Enter a new student into your database</h1>
+			<table>
+				<tr><td><label for="studentName">Student Name</label></td>
+					<td><input type="text" name="studentName"></td></tr>
+
+				<tr><td><label for="studentClassCode"></label>Class Code</td><td><input type="text" name="studentClassCode"></td></tr>
+
+				<tr><td><label for="studentAge">Age</label></td><td><input type="number" name="studentAge"></td></tr>
+
+				<tr><td><label for="studentLocation">Location</label></td><td><input type="text" name="studentLocation"></td></tr>
+
+				<tr><td><label for="studentLevel"></label>Level</td><td><input type="number" name="studentLevel"></td></tr>
+
+				<tr><td><label for="studentBirthday">Birthday</label></td><td><input type="date" name="studentBirthday"></td></tr>
+
+				<tr><td><input type="submit" name="submitButton" value="Submit" form="newStudentForm"> </td></tr>
+			</table>
+		</div>
+	</form>
+
+
+
+
+
+</body>
+</html>

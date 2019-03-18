@@ -3,17 +3,27 @@ body {
 }
 
 header {
-	background-color: purple;
+	background-color: pink;
+	padding: 3px;
+	margin: 5px;
 	
 }
 
-#classDataDiv, #signUpForm {
+.classDataDiv {
 	background-color: #cef4cc;
 	/*display: inline-block;*/
 	padding: 3px;
+	margin: 5px;
 }
 
-textarea {
-    
-    height: 100%;
+#aboutContainer {
+	background-color:  #cef4fc;
+	padding: 3px;
+	margin: 5px;
+}
+
+#signUpContainer {
+	background-color:  #bde2fc;
+	padding: 3px;
+	margin: 5px;
 }

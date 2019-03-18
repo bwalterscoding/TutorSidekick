@@ -1,9 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>Account Created!</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
+	<header>
+		<h1 id="title">TutorSidekick</h1>
+		<nav>
+			<ul>
+				
+				<li><a href="classroomDataEntry.html">Classroom Data Entry</a></li>
+				<li><a href="newStudentEntry.html">Student Data Entry</a></li>
+			</ul>
+		</nav>
+	</header>
 
 <?php
 
@@ -40,6 +53,7 @@ mysqli_close($connect);   // close the connection
 
 ?>
 <br>
-<button onclick="window.location.href='signUp.html'">Go Back</button>
+<h1 style="background-color: #a4a4eb">Account Successfully Created!</h1>
+<button onclick="window.location.href='login.html'">Login</button>
 </body>
 </html>
