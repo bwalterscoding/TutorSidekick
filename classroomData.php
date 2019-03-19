@@ -41,7 +41,8 @@ mysqli_close($connect);   // close the connection
 
 ?>
 
-<button onclick="window.location.href='classroomDataEntry.html'">Enter another class</button>
+<button onclick="window.location.href='classroomDataEntry.html'">Enter another class</button><br>
+<button onclick="window.location.href='firstPage.html'">Go Home</button>
 
 </body>
 </html>
