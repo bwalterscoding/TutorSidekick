@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>View Totals</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Cache-control" content="no-cache">
+</head>
+<body>
+	<header>
+		<h1 id="title">TutorSidekick</h1>
+		<nav>
+			<ul>
+				<li><a href="firstPage.html">Home</a></li>
+				<li><a href="classroomDataEntry.html">Classroom Data Entry</a></li>
+				<li><a href="newStudentEntry.html">Student Data Entry</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<h1>View Totals</h1>
+	<form action="viewAllStudents.php" method="post" id="totalsForm">
+		<input type="submit" name="submitButton" form="totalsForm" value="See all students">
+	</form>
+
+	<form action="viewAvg.php" method="post" id="avgForm">
+		<input type="submit" name="submitButton" form="avgForm" value="See average hourly rate">
+	</form>
+
+	<form action="dailyEarnings.php" method="post" id="dailyEarningsForm">
+		<input type="submit" name="submitButton" form="dailyEarningsForm" value="How much did I make today?">
+	</form>
+
+</body>
+</html>
