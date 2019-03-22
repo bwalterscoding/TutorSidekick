@@ -27,14 +27,15 @@ if( !$connect)
 	", ".mysqli_connect_error().")");
 }
 
-$hourlyRate = $_POST['hourlyRate'];
 $classLength = $_POST['classLength'];
+$hourlyRate = $_POST['hourlyRate'];
+$payment_earned = $classLength * $hourlyRate;
 $classCode = $_POST['classCode'];
 $dateOfClass = $_POST['dateOfClass'];
 $time = $_POST['time'];
 
-$userQuery = ("INSERT INTO classdata (hourly_rate, hours_taught, class_code, date_of_class, class_start_time) 
-				VALUES ('$hourlyRate', '$classLength', '$classCode', '$dateOfClass', '$time') ");
+$userQuery = ("INSERT INTO classdata (payment_earned, class_length, class_code, date_of_class, class_start_time) 
+				VALUES ('$payment_earned', '$classLength', '$classCode', '$dateOfClass', '$time') ");
 
 $result = mysqli_query($connect, $userQuery);
 mysqli_close($connect);   // close the connection

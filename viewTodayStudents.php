@@ -8,6 +8,20 @@
 </head>
 <body>
 
+	<header>
+		<h1 id="title">TutorSidekick</h1>
+		<nav>
+			<ul>
+				
+				<li><a href="firstPage.html">Home</a></li>
+				<li><a href="classroomDataEntry.html">Classroom Data Entry</a></li>
+				<li><a href="newStudentEntry.html">Student Data Entry</a></li>
+			</ul>
+		</nav>
+	</header>
+
+
+
 <?php
 
 $server = "localhost";
@@ -22,11 +36,12 @@ if( !$connect)
 	", ".mysqli_connect_error().")");
 }
 
-$userQuery = "SELECT s1.name, s1.location, s2.class_code
-			FROM students s1, students s2
-			WHERE s1.class_code = s2.class_code
-			GROUP BY name
-			ORDER BY class_code";
+$userQuery = "SELECT c.class_start_time, c.class_code, s.name, c.date_of_class
+			FROM classdata c, students s
+			WHERE c.class_code = s.class_code 
+			AND date_of_class = CURRENT_DATE() 
+			ORDER BY c.class_start_time
+			";
 $result = mysqli_query($connect, $userQuery);
 
 if (!$result)
@@ -40,12 +55,12 @@ if (mysqli_num_rows($result) == 0)
 }
 else
 {
-	print("<h1>Your students</h1>");
+	print("<h1>Here are the classes you taught today</h1>");
 	print("<table border = \"1\">");
-	print("<tr><th>First Name</th><th>Location</th>  <th>Classroom Number</th> </tr>");
+	print("<tr> <th>Time</th> <th>Class Code</th> <th>Name</th> <th>Date</th> </tr>");
 	while ($row = mysqli_fetch_assoc($result))
 	{
-		print("<tr><td>".$row['name']."</td><td>".$row['location']."</td><td>".$row['class_code']."</td></tr>");
+		print("<tr><td>".$row['class_start_time']."</td><td>".$row['class_code']."</td><td>".$row['name']."</td> <td>".$row['date_of_class']."</td> </tr>");
 	}
 	print("</table>");
 }
@@ -53,9 +68,8 @@ else
 
 
 mysqli_close($connect);   // close the connection
+
 ?>
-<br>
-<button onclick="window.location.href='viewTotals.html'">View Another Total</button>
 
 </body>
 </html>
