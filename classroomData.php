@@ -29,14 +29,14 @@ if( !$connect)
 
 $classLength = $_POST['classLength'];
 $hourlyRate = $_POST['hourlyRate'];
-$payment_earned = $classLength * $hourlyRate;
+$paymentEarned = $classLength * $hourlyRate;
 $classCode = $_POST['classCode'];
 $dateOfClass = $_POST['dateOfClass'];
 $time = $_POST['time'];
 $classComments = $_POST['commentBox'];
 
 $userQuery = ("INSERT INTO classdata (payment_earned, class_length, class_code, date_of_class, class_start_time, class_comments) 
-				VALUES ('$payment_earned', '$classLength', '$classCode', '$dateOfClass', '$time', '$classComments') ");
+				VALUES ('$paymentEarned', '$classLength', '$classCode', '$dateOfClass', '$time', '$classComments') ");
 
 $result = mysqli_query($connect, $userQuery);
 mysqli_close($connect);   // close the connection
