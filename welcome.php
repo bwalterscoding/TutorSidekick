@@ -19,6 +19,17 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script>
+        function studentAdded() {
+          var txt;
+          if (confirm("Student Added Successfully!")) {
+            txt = "You pressed OK!";
+          } else {
+            txt = "You pressed Cancel!";
+          }
+          document.getElementById("submitAddStudentButton").innerHTML = txt;
+        }
+    </script>
 </head>
 <body>
     <div class="page-header">
@@ -32,11 +43,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     <div class="container modal-content" id="user-interface">
         <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="background-color: #a4cabc">
             <!--FORM -->
             <form action="" method="POST">
                 <div class="form-group">
-                    <h2>Did you just finish teaching a class? <br><small>Start Here.</small></h2>
+                    <h2>Everytime you finish a class... <br><small>Fill this out.</small></h2>
                     <label for="classCode">Classroom Code</label>
                     <input type="text" class="form-control" id="inputClassCode" name="classCode" aria-describedby="classCodeHelp" placeholder="ABC123">
                     <small id="classCodeHelp" class="form-text text-muted">Enter the unique classroom number you have created or your company has provided.</small>
@@ -103,7 +114,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             ?>
         </div>
         
-        <div class="col-sm-4">
+        <!-- DISPLAY Earnings -->
+        <div class="col-sm-4" style="background-color: #eab364">
 
             <?php  
             // Include config file
@@ -125,28 +137,117 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 }
                 else
                 {
-                    print("<h1>This Is What You've Earned Today</h1>");
+                    print("<h2>This Is What You've Earned Today</h2>");
+                    print("<div style = \"background-color: #ffffff\">");
                     print("<table class = \"table table-bordered\">");
-                    print("<tr> <th>Money_Earned</th><th>Hours_Worked</th> <th>Average $ Earned Per Class</th> </tr>");
+                    print("<tr> <th>Money Earned</th><th>Hours Worked</th> <th>Class Average</th> </tr>");
                     while ($row = mysqli_fetch_assoc($result))
                     {
-                        print("<tr><td> $".$row['Money_Earned']."</td> <td>".$row['Hours_Worked']."</td> <td> $".$row['Avg_Each_Class']."</td> </tr>");
+                        print("<tr><td> $".number_format($row['Money_Earned'], 2, '.', '')."</td> <td>".number_format($row['Hours_Worked'])."</td> <td> $".number_format($row['Avg_Each_Class'])."</td> </tr>");
                     }
                     print("</table>");
+                    print("</div>");
                 }
-                    mysqli_close($link);   // close the connection 
-             
+                    
+                //DISPLAY Students Taught
+
+
+
+
+                $userQuery2 = "SELECT DISTINCT(c.class_start_time), s.class_code, s.name, c.date_of_class
+                            FROM classdata c, students s
+                            WHERE c.class_code = s.class_code 
+                            AND date_of_class = CURRENT_DATE() 
+                            ORDER BY c.class_start_time
+                            ";
+                $result2 = mysqli_query($link, $userQuery2);
+
+                if (!$result2)
+                {
+                    die("Could not successfully run query ($userQuery2) from $db: ". mysqli_error($link) );
+                }
+
+                if (mysqli_num_rows($result2) == 0)
+                {
+                    print("Nothing to show yet");
+                }
+                else
+                {
+                    print("<h2>Here are the students you've taught today</h2>");
+                    print("<div style = \"background-color: #ffffff\">");
+                    print("<table class = \"table table-condensed\">");
+                    print("<tr> <th>Time</th> <th>Class Code</th> <th>Name</th> <th>Date</th> </tr>");
+                    while ($row = mysqli_fetch_assoc($result2))
+                    {
+                        print("<tr><td>".$row['class_start_time']."</td><td>".$row['class_code']."</td><td>".$row['name']."</td> <td>".$row['date_of_class']."</td> </tr>");
+                    }
+                    print("</table>");
+                    print("</div>");
+                }
             
             ?>
         </div>
 
-        <div class="col-sm-4">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <div class="col-sm-4" style="background-color: #acdb7a;">
+            
+            
+            <form action="" method="POST">
+                <div class="form-group">
+                    <h2>Gotta New Student? Congrats!</h2>
+                    <p class="small">Add them in the system here</p>
+                    <label for="studentName">Name</label>
+                    <input type="text" class="form-control" id="inputStudentName" name="studentName" placeholder="Billybob Dinkle">
+                </div>
+                <div class="form-group">
+                    <label for="studentClassCode">Student's Class Code</label>
+                    <input type="text" class="form-control" name="studentClassCode" id="inputStudentClassCode" placeholder="ABC123">
+                </div>
+                <div class="form-group">
+                    <label for="studentAge">Age</label>
+                    <input type="number" class="form-control" name="studentAge" id="inputStudentAge">
+                </div>
+                <div class="form-group">
+                    <label for="studentLocation">Location</label>
+                    <input type="text" class="form-control" name="studentLocation" id="inputStudentLocation">
+                </div>
+                <div class="form-group">
+                    <label for="studentLevel">Level</label>
+                    <input type="number" class="form-control" name="studentLevel" id="inputStudentLevel">
+                </div>
+                <div class="form-group">
+                    <label for="studentBirthday">Birthday</label>
+                    <input type="date" class="form-control" name="studentBirthday" id="inputStudentBirthday">
+                </div>
+                <button type="submit" class="btn btn-primary" name="submit_btnNewStudent" onclick="studentAdded()" id="submitAddStudentButton">
+                    Submit
+                </button>
+            </form>
+
+            <?php  
+            // Include config file
+            require_once "config.php";
+
+            if(isset($_REQUEST['submit_btnNewStudent']))
+            {
+                $studentName = $_POST['studentName'];
+            $studentClassCode = $_POST['studentClassCode'];
+            $studentAge = $_POST['studentAge'];
+            $studentLocation = $_POST['studentLocation'];
+            $studentLevel = $_POST['studentLevel'];
+            $studentBirthday = $_POST['studentBirthday'];
+
+            $userQuery3 = ("INSERT INTO students (name, class_code, age, location, level, birthday)
+                            VALUES ('$studentName','$studentClassCode','$studentAge','$studentLocation','$studentLevel','$studentBirthday')");
+
+            $result3 = mysqli_query($link, $userQuery3);
+            mysqli_close($link);   // close the connection
+            }
+
+            ?>
+            
+
+
+
         </div>
 
     </div>   
