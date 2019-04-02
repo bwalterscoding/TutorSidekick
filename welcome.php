@@ -137,13 +137,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 }
                 else
                 {
-                    print("<h2>This Is What You've Earned Today</h2>");
+                    print("<h2>Your Earnings Today</h2>");
                     print("<div style = \"background-color: #ffffff\">");
                     print("<table class = \"table table-bordered\">");
                     print("<tr> <th>Money Earned</th><th>Hours Worked</th> <th>Class Average</th> </tr>");
                     while ($row = mysqli_fetch_assoc($result))
                     {
-                        print("<tr><td> $".number_format($row['Money_Earned'], 2, '.', '')."</td> <td>".number_format($row['Hours_Worked'])."</td> <td> $".number_format($row['Avg_Each_Class'])."</td> </tr>");
+                        print("<tr><td> $".number_format($row['Money_Earned'], 2, '.', '')."</td> <td>".number_format($row['Hours_Worked'], 1, '.', '')."</td> <td> $".number_format($row['Avg_Each_Class'], 2, '.', '')."</td> </tr>");
                     }
                     print("</table>");
                     print("</div>");
@@ -173,7 +173,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 }
                 else
                 {
-                    print("<h2>Here are the students you've taught today</h2>");
+                    print("<h2>Students you've taught today</h2>");
                     print("<div style = \"background-color: #ffffff\">");
                     print("<table class = \"table table-condensed\">");
                     print("<tr> <th>Time</th> <th>Class Code</th> <th>Name</th> <th>Date</th> </tr>");
