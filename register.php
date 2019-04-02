@@ -105,6 +105,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
+    <div class="page-header">
+        <h1 class="h1">TutorSidekick</h1>
+        <h2><small>A tool for independent tutors to manage students and records.</small></h2>
+        <br>
+          
+    </div>
     <div class="wrapper">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>

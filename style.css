@@ -1,29 +1,12 @@
 body {
-	background-color: #6da4bf;
-}
-
-header {
-	background-color: pink;
-	padding: 3px;
-	margin: 5px;
 	
+	font: 14px sans-serif; text-align: center; 
 }
 
-.classDataDiv {
-	background-color: #cef4cc;
-	/*display: inline-block;*/
-	padding: 3px;
-	margin: 5px;
+.page-header{
+	background-color: #b2373e;
 }
 
-#aboutContainer {
-	background-color:  #cef4fc;
-	padding: 3px;
-	margin: 5px;
-}
-
-#signUpContainer {
-	background-color:  #bde2fc;
-	padding: 3px;
-	margin: 5px;
+#loginHeader {
+	text-align: center;
 }

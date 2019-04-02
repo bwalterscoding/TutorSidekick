@@ -100,6 +100,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style>
 </head>
 <body>
+    <div class="page-header">
+        <h1>TutorSidekick</h1>
+        <h2><small>A tool for independent tutors to manage students and records.</small></h2>
+    </div>
     <div class="wrapper">
         <h2>Login</h2>
         <p>Please fill in your credentials to login.</p>
@@ -116,6 +120,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
+                <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a> 
             </div>
             <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
         </form>
