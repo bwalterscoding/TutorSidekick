@@ -33,7 +33,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <div class="container modal-content" id="user-interface">
         <div class="row">
         <div class="col-sm-4">
-
             <!--FORM -->
             <form action="" method="POST">
                 <div class="form-group">
@@ -77,11 +76,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 </div>
               <button type="submit" class="btn btn-primary" name="submit_btn">Submit</button>
             </form>
-        </div>
-        
-
-
-        <div class="col-sm-4">
             <?php  
             // Include config file
             require_once "config.php";
@@ -97,41 +91,67 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             $hourlyRate = $_POST['hourlyRate'];
             $paymentEarned = $hourlyRate * $classLength;
 
-            echo "Class Code <br>", $classCode;
-            echo "Date <br>", $dateOfClass;
-            echo "Class Start Time <br>", $classStartTime;
-            echo "Class Length <br>", $classLength;
-            echo "Comment <br>", $classComment;
-            echo "You Made $ <br>", $paymentEarned;
-
-
             $userQuery = ("INSERT INTO classdata (payment_earned, class_length, class_code, date_of_class, class_start_time, class_comments) 
             VALUES ('$paymentEarned', '$classLength', '$classCode', '$dateOfClass', '$classStartTime', '$classComment') ");
 
             $result = mysqli_query($link, $userQuery);
-            mysqli_close($link);   // close the connection
-
+            
             
               
             }
 
             ?>
-           
         </div>
         
+        <div class="col-sm-4">
 
+            <?php  
+            // Include config file
+            require_once "config.php";
 
+            
+             
+                $userQuery = "SELECT SUM(payment_earned) AS Money_Earned, SUM(class_length) AS Hours_Worked, AVG(payment_earned) AS Avg_Each_Class FROM classdata WHERE date_of_class = CURRENT_DATE";
+                $result = mysqli_query($link, $userQuery);
 
+                if (!$result)
+                {
+                    die("Could not successfully run query ($userQuery) from your DB: ". mysqli_error($link) );
+                }
 
-        <div class="col-sm-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                if (mysqli_num_rows($result) == 0)
+                {
+                    print("No records found with query $userQuery");
+                }
+                else
+                {
+                    print("<h1>This Is What You've Earned Today</h1>");
+                    print("<table class = \"table table-bordered\">");
+                    print("<tr> <th>Money_Earned</th><th>Hours_Worked</th> <th>Average $ Earned Per Class</th> </tr>");
+                    while ($row = mysqli_fetch_assoc($result))
+                    {
+                        print("<tr><td> $".$row['Money_Earned']."</td> <td>".$row['Hours_Worked']."</td> <td> $".$row['Avg_Each_Class']."</td> </tr>");
+                    }
+                    print("</table>");
+                }
+                    mysqli_close($link);   // close the connection 
+             
+            
+            ?>
         </div>
-        
+
+        <div class="col-sm-4">
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+
     </div>   
     </div>
+
+
 </body>
 </html>
