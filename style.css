@@ -1,6 +1,7 @@
 body {
 	
 	font: 14px sans-serif; text-align: center; 
+	margin: 5px;
 }
 
 .page-header{
@@ -10,3 +11,34 @@ body {
 #loginHeader {
 	text-align: center;
 }
+
+#form-box{
+	background-color: yellow;
+
+}
+
+#forms {
+	border-radius: 2%;
+	box-shadow: 5px 10px #888888;
+	align-content: center;
+}
+
+#row1-form, #row2-form {
+	padding: 2%;
+}
+
+#cash-money{
+	font-size: 20px;
+	color: green;
+}
+
+#hours-worked {
+	font-size: 20px;
+	color: blue;
+}
+
+th {
+	font-size: 24px;
+	color: grey;
+}
+
