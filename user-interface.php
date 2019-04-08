@@ -141,20 +141,22 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	            $userTeacher2 = htmlspecialchars($_SESSION["username"]);
 
 	                $userQuery = "
-	                	SELECT SUM(c.payment_earned) AS Money_Earned, 
-	                	SUM(c.class_length) AS Hours_Worked, 
-	                	AVG(c.payment_earned) AS Avg_Each_Class 
-	                	FROM classdata c, users u
-	                	WHERE c.date_of_class = CURRENT_DATE
-	                	AND c.teacher = '$userTeacher2'";
-	                $result = mysqli_query($link, $userQuery);
+	                	SELECT SUM(payment_earned) AS Money_Earned, 
+	                	SUM(class_length) AS Hours_Worked, 
+	                	AVG(payment_earned) AS Avg_Each_Class 
+	                	FROM classdata c
+	                	WHERE date_of_class = CURRENT_DATE()
+	                	AND teacher = '$userTeacher2'
+	                	";
 
-	                if (!$result)
+	                $result2 = mysqli_query($link, $userQuery);
+
+	                if (!$result2)
 	                {
 	                    die("Could not successfully run query ($userQuery) from your DB: ". mysqli_error($link) );
 	                }
 
-	                if (mysqli_num_rows($result) == 0)
+	                if (mysqli_num_rows($result2) == 0)
 	                {
 	                    print("No records found with query $userQuery");
 	                }
@@ -164,12 +166,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	                    print("<div style = \"background-color: #ffffff\">");
 	                    print("<table class = \"table table-bordered\">");
 	                    print("<tr> <th>Money Earned</th><th>Hours Worked</th> <th>Class Average</th> </tr>");
-	                    while ($row = mysqli_fetch_assoc($result))
+	                    while ($row = mysqli_fetch_assoc($result2))
 	                    {
 	                        print("<tr><td id=\"cash-money\"> $".number_format($row['Money_Earned'], 2, '.', '')."</td> <td id=\"hours-worked\">".number_format($row['Hours_Worked'], 1, '.', '')."</td> <td id=\"cash-money\"> $".number_format($row['Avg_Each_Class'], 2, '.', '')."</td> </tr>");
 	                    }
 	                    print("</table>");
 	                    print("</div>");
+	                   
 	                    
 	                }
 	                    
@@ -179,21 +182,22 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	                    
 	                //DISPLAY Students Taught SQL Query
 
-	                $userQuery2 = "SELECT (c.class_start_time), s.class_code, s.name, c.date_of_class
+	                $userQuery2 = "
+	                			SELECT (c.class_start_time), s.class_code, s.name, c.date_of_class
 	                            FROM classdata c, students s
 	                            WHERE c.class_code = s.class_code 
 	                            AND c.date_of_class = CURRENT_DATE()
 	                            AND c.teacher = '$userTeacher2' 
 	                            ORDER BY c.class_start_time
 	                            ";
-	                $result2 = mysqli_query($link, $userQuery2);
+	                $result3 = mysqli_query($link, $userQuery2);
 
-	                if (!$result2)
+	                if (!$result3)
 	                {
 	                    die("Could not successfully run query ($userQuery2) from $db: ". mysqli_error($link) );
 	                }
 
-	                if (mysqli_num_rows($result2) == 0)
+	                if (mysqli_num_rows($result3) == 0)
 	                {
 	                    print("Nothing to show yet");
 	                }
@@ -203,7 +207,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	                    print("<div style = \"background-color: #ffffff\">");
 	                    print("<table class = \"table table-bordered\">");
 	                    print("<tr> <th>Time</th> <th>Class Code</th> <th>Name</th> <th>Date</th> </tr>");
-	                    while ($row = mysqli_fetch_assoc($result2))
+	                    while ($row = mysqli_fetch_assoc($result3))
 	                    {
 	                        print("<tr><td>".$row['class_start_time']."</td><td>".$row['class_code']."</td><td>".$row['name']."</td> <td>".$row['date_of_class']."</td> </tr>");
 	                    }
@@ -212,7 +216,25 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	                }
 	            
 	            ?>
+	            <!-- Clear the information of classes and students taught  -->
+	            <br>
+	            <form action="user-interface.php" method="post">
+	            	<input type="submit" name="clear-today-student-btn" value="Clear Table">
+	            </form>
+	            	<?php
 
+					require_once "config.php";
+
+					if (isset($_POST['clear-today-student-btn'])) 
+					{
+						$userQuery = "DELETE FROM classdata WHERE date_of_class = CURRENT_DATE()";
+					}
+
+					$result3 = mysqli_query($link, $userQuery);
+					mysqli_close($link);   // close the connection
+
+
+					?>
 	        </div>
 	    </div> <!-- end Row 2 -->
 
