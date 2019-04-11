@@ -29,13 +29,19 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
           }
           document.getElementById("submitAddStudentButton").innerHTML = txt;
         }
+
+        function clicked(e)
+		{
+		    if(!confirm('Are you sure?'))e.preventDefault();
+		}
+
     </script>
 </head>
 
 
 <body>
     <div class="page-header">
-        <h1 style="color: white;">Hi, <i><?php echo htmlspecialchars($_SESSION["username"]); ?></i>. Welcome to <b>TutorSidekick<b>.</h1>
+        <h1 style="color: white;">Hi, <i><?php echo htmlspecialchars($_SESSION["username"]); ?></i>. <br>Welcome to <b>TutorSidekick<b>.</h1>
         <br>
         <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
         <a href="logout.php" class="btn btn-danger">Sign Out of Your Account</a>    
@@ -43,7 +49,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     <!-- The USER INTERFACE starts here  -->
 
-    <h2><b>User Interface<b></h2>
+    <h2><b>This is your command center<b></h2>
 
     <div class="container modal-content" id="form-box">
         <div class="row" id="row1-form"> <!-- This is the first row of the user-interface -->
@@ -52,8 +58,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
            	
             	<div class="col-sm-12" style="background-color: #a4cabc" id="forms">
 	            <form action="" method="POST">
-	                <div class="form-group benCenter">
-	                    <h2>When you finish a class... <br><small>Fill this out.</small></h2>
+	                <div class="form-group">
+	                    <h2>After each class, fill this out<br><small>Make sure you have students <a href="#row3-form">entered in</a>.</small></h2>
 	                    <label for="classCode">Classroom Code</label>
 	                    <input type="text" class="form-control" id="inputClassCode" name="classCode" aria-describedby="classCodeHelp" placeholder="ABC123">
 	                    <small id="classCodeHelp" class="form-text text-muted">Enter the unique classroom number you have created or your company has provided.</small>
@@ -127,7 +133,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             ?>
         	</div>
         
-    </div> <!-- end Row 1 -->
+    	</div> <!-- end Row 1 -->
 
 
         <!-- DISPLAY Earnings in a table -->
@@ -218,27 +224,109 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	            ?>
 	            <!-- Clear the information of classes and students taught  -->
 	            <br>
-	            <form action="user-interface.php" method="post">
-	            	<input type="submit" name="clear-today-student-btn" value="Clear Table">
+	            <form action="" method="post">
+	            	<input type="submit" name="clear-today-student-btn" value="Clear Table" type="submit" onclick="clicked(event)">
 	            </form>
 	            	<?php
 
 					require_once "config.php";
+					$userTeacher = htmlspecialchars($_SESSION["username"]);
 
 					if (isset($_POST['clear-today-student-btn'])) 
 					{
-						$userQuery = "DELETE FROM classdata WHERE date_of_class = CURRENT_DATE()";
+						$userQuery = "
+						DELETE FROM classdata 
+						WHERE date_of_class = CURRENT_DATE()
+						AND teacher = '$userTeacher'
+						";
 					}
 
 					$result3 = mysqli_query($link, $userQuery);
-					mysqli_close($link);   // close the connection
-
+					
 
 					?>
+
+				<!--Print Daily Report Button -->
+	            <form action="print_report_pdf.php" method="post">
+	            	<input type="submit" name="printable-report-btn" value="Get Printable Daily Report">
+
+	            </form>
+
+
 	        </div>
 	    </div> <!-- end Row 2 -->
 
-    </div>
+	    <div class="row" id="row3-form"> <!-- This is the third row of the user-interface -->
+	        <div class="col-sm-12" style="background-color: #acdb7a;" id="forms">
+	        
+	            <form action="" method="POST">
+	                <div class="form-group" >
+	                    <h2>Enter your currently enrolled students here if first time.</h2>
+	                    <p class="small">Or add a new student as you obtain them</p>
+	                    <label for="studentName">Name</label>
+	                    <input type="text" class="form-control" id="inputStudentName" name="studentName" placeholder="Billybob Dinkle" required>
+	                </div>
+	                <div class="form-group">
+	                    <label for="studentClassCode">Student's Class Code</label>
+	                    <input type="text" class="form-control" name="studentClassCode" id="inputStudentClassCode" placeholder="ABC123" required>
+	                </div>
+	                <div class="form-group">
+	                    <label for="studentAge">Age</label>
+	                    <input type="number" class="form-control" name="studentAge" id="inputStudentAge">
+	                </div>
+	                <div class="form-group">
+	                    <label for="studentLocation">Location</label>
+	                    <input type="text" class="form-control" name="studentLocation" id="inputStudentLocation">
+	                </div>
+	                <div class="form-group">
+	                    <label for="studentLevel">Level</label>
+	                    <input type="number" class="form-control" name="studentLevel" id="inputStudentLevel">
+	                </div>
+	                <div class="form-group">
+	                    <label for="studentBirthday">Birthday</label>
+	                    <input type="date" class="form-control" name="studentBirthday" id="inputStudentBirthday">
+	                </div>
+	                <div class="form-group">
+						<button type="submit" class="btn btn-primary" name="submit_btnNewStudent" onclick="studentAdded()" id="submitAddStudentButton">
+	                    Submit
+	                	</button>
+					</div>
+
+					
+	            </form>
+
+	            <?php  
+	            // Include config file
+	            require_once "config.php";
+
+	            if(isset($_REQUEST['submit_btnNewStudent']))
+	            {
+	                $studentName = $_POST['studentName'];
+		            $studentClassCode = $_POST['studentClassCode'];
+		            $studentAge = $_POST['studentAge'];
+		            $studentLocation = $_POST['studentLocation'];
+		            $studentLevel = $_POST['studentLevel'];
+		            $studentBirthday = $_POST['studentBirthday'];
+		            $userTeacher4 = htmlspecialchars($_SESSION["username"]);
+
+		            $userQuery4 = ("INSERT INTO students (name, class_code, age, location, level, birthday, assigned_teacher)
+		                            VALUES ('$studentName','$studentClassCode','$studentAge','$studentLocation','$studentLevel','$studentBirthday' , '$userTeacher4')");
+
+		            $result4 = mysqli_query($link, $userQuery4);
+		            mysqli_close($link);   // close the connection
+	            }
+
+	            ?>
+	            
+
+
+
+	        </div>
+	    </div> <!-- end Row 3 -->
+
+	    
+
+    </div> <!-- Modal Content Div -->
 
 
 </body>
