@@ -158,29 +158,29 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	                $result2 = mysqli_query($link, $userQuery);
 
 	                if (!$result2)
-	                {
-	                    die("Could not successfully run query ($userQuery) from your DB: ". mysqli_error($link) );
-	                }
+		                {
+		                    die("Could not successfully run query ($userQuery) from your DB: ". mysqli_error($link) );
+		                }
 
 	                if (mysqli_num_rows($result2) == 0)
-	                {
-	                    print("No records found with query $userQuery");
-	                }
+		                {
+		                    print("No records found with query $userQuery");
+		                }
 	                else
-	                {
-	                    print("<h2>Your Earnings Today</h2>");
-	                    print("<div style = \"background-color: #ffffff\">");
-	                    print("<table class = \"table table-bordered\">");
-	                    print("<tr> <th>Money Earned</th><th>Hours Worked</th> <th>Class Average</th> </tr>");
-	                    while ($row = mysqli_fetch_assoc($result2))
-	                    {
-	                        print("<tr><td id=\"cash-money\"> $".number_format($row['Money_Earned'], 2, '.', '')."</td> <td id=\"hours-worked\">".number_format($row['Hours_Worked'], 1, '.', '')."</td> <td id=\"cash-money\"> $".number_format($row['Avg_Each_Class'], 2, '.', '')."</td> </tr>");
-	                    }
-	                    print("</table>");
-	                    print("</div>");
-	                   
-	                    
-	                }
+		                {
+		                    print("<h2>Your Earnings Today</h2>");
+		                    print("<div style = \"background-color: #ffffff\">");
+		                    print("<table class = \"table table-bordered\">");
+		                    print("<tr> <th>Money Earned</th><th>Hours Worked</th> <th>Class Average</th> </tr>");
+		                    while ($row = mysqli_fetch_assoc($result2))
+			                    {
+			                        print("<tr><td id=\"cash-money\"> $".number_format($row['Money_Earned'], 2, '.', '')."</td> <td id=\"hours-worked\">".number_format($row['Hours_Worked'], 1, '.', '')."</td> <td id=\"cash-money\"> $".number_format($row['Avg_Each_Class'], 2, '.', '')."</td> </tr>");
+			                    }
+		                    print("</table>");
+		                    print("</div>");
+		                   
+		                    
+		                }
 	                    
 
 
@@ -249,16 +249,36 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 				<!--Print Daily Report Button -->
 	            <form action="print_report_pdf.php" method="post">
 	            	<input type="submit" name="printable-report-btn" value="Get Printable Daily Report">
-
 	            </form>
-
-
 	        </div>
 	    </div> <!-- end Row 2 -->
 
-	    <div class="row" id="row3-form"> <!-- This is the third row of the user-interface -->
+	    <?php
+	            //This processes the new student form
+	            //It really needs input validation.  Many duplicate class_code names are driving me nuts and causing confusion  
+	            // Include config file
+	            require_once "config.php";
+
+	            if(isset($_REQUEST['submit_btnNewStudent']))
+	            {
+	                $studentName = $_POST['studentName'];
+		            $studentClassCode = $_POST['studentClassCode'];
+		            $studentAge = $_POST['studentAge'];
+		            $studentLocation = $_POST['studentLocation'];
+		            $studentLevel = $_POST['studentLevel'];
+		            $studentBirthday = $_POST['studentBirthday'];
+		            $userTeacher4 = htmlspecialchars($_SESSION["username"]);
+
+		            $userQuery4 = ("INSERT INTO students (name, class_code, age, location, level, birthday, assigned_teacher)
+		                            VALUES ('$studentName','$studentClassCode','$studentAge','$studentLocation','$studentLevel','$studentBirthday' , '$userTeacher4')");
+
+		            $result4 = mysqli_query($link, $userQuery4);
+		            mysqli_close($link);   // close the connection
+	            }
+	    ?>
+
+	    <div class="row" id="row3-form"> <!-- This is the third row of the user-interface ENTER A STUDENT-->
 	        <div class="col-sm-12" style="background-color: #acdb7a;" id="forms">
-	        
 	            <form action="" method="POST">
 	                <div class="form-group" >
 	                    <h2>Enter your currently enrolled students here if first time.</h2>
@@ -291,43 +311,52 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 	                    Submit
 	                	</button>
 					</div>
-
-					
-	            </form>
-
-	            <?php  
-	            // Include config file
-	            require_once "config.php";
-
-	            if(isset($_REQUEST['submit_btnNewStudent']))
-	            {
-	                $studentName = $_POST['studentName'];
-		            $studentClassCode = $_POST['studentClassCode'];
-		            $studentAge = $_POST['studentAge'];
-		            $studentLocation = $_POST['studentLocation'];
-		            $studentLevel = $_POST['studentLevel'];
-		            $studentBirthday = $_POST['studentBirthday'];
-		            $userTeacher4 = htmlspecialchars($_SESSION["username"]);
-
-		            $userQuery4 = ("INSERT INTO students (name, class_code, age, location, level, birthday, assigned_teacher)
-		                            VALUES ('$studentName','$studentClassCode','$studentAge','$studentLocation','$studentLevel','$studentBirthday' , '$userTeacher4')");
-
-		            $result4 = mysqli_query($link, $userQuery4);
-		            mysqli_close($link);   // close the connection
-	            }
-
-	            ?>
-	            
-
-
-
+	            </form>	        
 	        </div>
 	    </div> <!-- end Row 3 -->
 
+
+	    <div class="row" id="row4-form"> <!-- This is the 4th row of the user-interface ENTER A STUDENT-->
+	        <div class="col-sm-12" style="background-color: #dfec5a;" id="forms">
+	        	<?php  
+	        	//DISPLAY All Students
+	        		$userTeacher = htmlspecialchars($_SESSION["username"]);
+	                $userQuery2 = "
+	                			SELECT name, class_code
+	                            FROM students
+	                            WHERE assigned_teacher = '$userTeacher'
+	                            ";
+	                $result3 = mysqli_query($link, $userQuery2);
+
+	                if (!$result3)
+	                {
+	                    die("Could not successfully run query ($userQuery2) from $db: ". mysqli_error($link) );
+	                }
+
+	                if (mysqli_num_rows($result3) == 0)
+	                {
+	                    print("Nothing to show yet");
+	                }
+	                else
+	                {
+	                    print("<h2>All Your Students</h2>");
+	                    print("<div style = \"background-color: #ffffff\">");
+	                    print("<table class = \"table table-bordered\">");
+	                    print("<tr> <th>Name</th> <th>ClassCode</th> </tr>");
+	                    while ($row = mysqli_fetch_assoc($result3))
+	                    {
+	                        print("<tr> <td>".$row['name']."</td> <td>".$row['class_code']."</td> </tr>");
+	                    }
+	                    print("</table>");
+	                    print("</div>");
+	                }
+	        	?>
+	        </div>
+	    </div> <!-- end Row 4 -->
+
 	    
 
-    </div> <!-- Modal Content Div -->
-
+	</div> <!-- End Modal Content Div -->
 
 </body>
 </html>
